@@ -5,7 +5,7 @@ variables:
   organisation: johnwatson484
 
 schedules:
-- cron: "*/5 * * * *"
+- cron: "0 0 1 * *"
   displayName: Conservation
   branches:
     include:
