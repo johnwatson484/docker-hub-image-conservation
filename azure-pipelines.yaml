@@ -1,0 +1,16 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+schedules:
+- cron: $(schedule)
+  displayName: Conservation
+  branches:
+    include:
+    - master
+  always: true
+
+steps:
+  - script: |
+      echo 'hello'
+    displayName: Test
+    
