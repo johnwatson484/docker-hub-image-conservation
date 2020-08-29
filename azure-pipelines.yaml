@@ -2,7 +2,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 schedules:
-- cron: "* * * * *"
+- cron: "0 0 1 * *"
   displayName: Conservation
   branches:
     include:
