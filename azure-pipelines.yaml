@@ -1,8 +1,11 @@
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  organisation: johnwatson484
+
 schedules:
-- cron: "* * * * *"
+- cron: "*/5 * * * *"
   displayName: Conservation
   branches:
     include:
@@ -11,14 +14,12 @@ schedules:
 
 steps:
   - script: |
-      ORG="johnwatson484"
-      echo "Retrieving repository list ..."
+      ORG=$(organisation)
+      echo "Retrieving repository list"
       REPO_LIST=$(curl -s https://hub.docker.com/v2/repositories/${ORG}/?page_size=100 | jq -r '.results|.[]|.name')
       echo "Pulling all images for organization: ${ORG}"
-      echo
       for i in ${REPO_LIST}
       do
-        echo "${i}:"
         docker pull ${ORG}/${i} --all-tags
       done
     displayName: Pull images
