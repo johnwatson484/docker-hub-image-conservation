@@ -11,22 +11,15 @@ schedules:
 
 steps:
   - script: |
-      # tags = curl https://index.docker.io/v1/repositories/$image/tags
-      # set username, password, and organization
       ORG="johnwatson484"
       echo "Retrieving repository list ..."
       REPO_LIST=$(curl -s https://hub.docker.com/v2/repositories/${ORG}/?page_size=100 | jq -r '.results|.[]|.name')
-      echo "Images and tags for organization: ${ORG}"
+      echo "Pulling all images for organization: ${ORG}"
       echo
       for i in ${REPO_LIST}
       do
         echo "${i}:"
-        IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORG}/${i}/tags/?page_size=100 | jq -r '.results|.[]|.name')
-        for j in ${IMAGE_TAGS}
-        do
-          echo "  - ${j}"
-        done
-        echo
+        docker pull ${ORG}/${i} --all-tags
       done
-    displayName: Test
+    displayName: Pull images
     
