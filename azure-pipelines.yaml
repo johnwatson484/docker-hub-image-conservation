@@ -21,7 +21,7 @@ steps:
       for i in ${REPO_LIST}
       do
         docker pull ${ORG}/${i} --all-tags
-        docker image rm ${ORG}/${i}
+        docker system prune --all --force
       done
     displayName: Pull images
     
