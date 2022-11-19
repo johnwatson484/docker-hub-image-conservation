@@ -1,5 +1,5 @@
 pool:
-  vmImage: Kubernetes
+  name: Kubernetes
 
 variables:
   organisation: johnwatson484
