@@ -4,7 +4,7 @@ Azure DevOps pipeline to regularly pull all images from a Docker Hub account
 ## Overview
 Docker Hub's retention policy will delete any image tag not pushed/pulled for six months.
 
-This Azure pipeline will pull all images from a Docker Hub account on a schedule to avoid image deletion.
+This Azure pipeline will pull the last five published images from a Docker Hub account on a schedule to avoid image deletion.
 
 ## Usage
 Update `ORG` variable in bash script step and amend cron schedule as necessary.
