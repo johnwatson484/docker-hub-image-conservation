@@ -1,5 +1,5 @@
 schedules:
-- cron: "0 0 1 * *"
+- cron: '0 0 1 * *'
   displayName: Conservation
   branches:
     include:
@@ -24,10 +24,14 @@ jobs:
       ORG="johnwatson484"
       echo "Retrieving repository list"
       REPO_LIST=$(curl -s https://hub.docker.com/v2/repositories/${ORG}/?page_size=100 | jq -r '.results|.[]|.name')
-      echo "Pulling all images for organization: ${ORG}"
-      for i in ${REPO_LIST}
+      echo "Pulling latest 5 tags for each image in organization: ${ORG}"
+      for REPO in ${REPO_LIST}
       do
-        docker pull ${ORG}/${i} --all-tags --quiet
+        TAGS=$(curl -s "https://hub.docker.com/v2/repositories/${ORG}/${REPO}/tags?page_size=5&page=1&ordering=last_updated" | jq -r '.results|.[]|.name')
+        for TAG in ${TAGS}
+        do
+          docker pull ${ORG}/${REPO}:${TAG} --quiet
+        done
         docker system prune --all --force
       done
     displayName: Pull images
