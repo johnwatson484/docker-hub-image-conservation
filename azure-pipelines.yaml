@@ -8,6 +8,8 @@ schedules:
 
 jobs:
 - job: Conservation
+  pool:
+    vmImage: 'ubuntu-latest'
   displayName: Conservation
   timeoutInMinutes: 0
 
@@ -22,10 +24,10 @@ jobs:
       ORG="johnwatson484"
       echo "Retrieving repository list"
       REPO_LIST=$(curl -s https://hub.docker.com/v2/repositories/${ORG}/?page_size=100 | jq -r '.results|.[]|.name')
-      echo "Pulling latest 5 tags for each image in organization: ${ORG}"
+      echo "Pulling latest 3 tags for each image in organization: ${ORG}"
       for REPO in ${REPO_LIST}
       do
-        TAGS=$(curl -s "https://hub.docker.com/v2/repositories/${ORG}/${REPO}/tags?page_size=5&page=1&ordering=last_updated" | jq -r '.results|.[]|.name')
+        TAGS=$(curl -s "https://hub.docker.com/v2/repositories/${ORG}/${REPO}/tags?page_size=3&page=1&ordering=last_updated" | jq -r '.results|.[]|.name')
         for TAG in ${TAGS}
         do
           docker pull ${ORG}/${REPO}:${TAG} --quiet
