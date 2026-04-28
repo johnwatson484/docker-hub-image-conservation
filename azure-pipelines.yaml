@@ -9,8 +9,6 @@ schedules:
 jobs:
 - job: Conservation
   displayName: Conservation
-  pool:
-    name: Kubernetes
   timeoutInMinutes: 0
 
   steps:
